@@ -9,7 +9,7 @@ use crate::{
     resources::SpriteAtlases,
 };
 
-pub fn create_wall(world: &mut World, position: Vector2<u32>) {
+pub fn create_wall(world: &mut World, position: Vector2<i32>) {
     let handle = {
         let atlases = world.read_resource::<SpriteAtlases>();
         atlases.all.clone()
@@ -31,7 +31,7 @@ pub fn create_wall(world: &mut World, position: Vector2<u32>) {
         .build();
 }
 
-pub fn create_box(world: &mut World, position: Vector2<u32>) {
+pub fn create_box(world: &mut World, position: Vector2<i32>) {
     let handle = {
         let atlases = world.read_resource::<SpriteAtlases>();
         atlases.all.clone()
@@ -53,7 +53,7 @@ pub fn create_box(world: &mut World, position: Vector2<u32>) {
         .build();
 }
 
-pub fn create_box_spot(world: &mut World, position: Vector2<u32>) {
+pub fn create_box_spot(world: &mut World, position: Vector2<i32>) {
     let handle = {
         let atlases = world.read_resource::<SpriteAtlases>();
         atlases.all.clone()
@@ -75,7 +75,7 @@ pub fn create_box_spot(world: &mut World, position: Vector2<u32>) {
         .build();
 }
 
-pub fn create_floor(world: &mut World, position: Vector2<u32>) {
+pub fn create_floor(world: &mut World, position: Vector2<i32>) {
     let handle = {
         let atlases = world.read_resource::<SpriteAtlases>();
         atlases.all.clone()
@@ -97,7 +97,7 @@ pub fn create_floor(world: &mut World, position: Vector2<u32>) {
         .build();
 }
 
-pub fn create_player(world: &mut World, position: Vector2<u32>) {
+pub fn create_player(world: &mut World, position: Vector2<i32>) {
     let handle = {
         let atlases = world.read_resource::<SpriteAtlases>();
         atlases.all.clone()

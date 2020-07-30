@@ -44,7 +44,7 @@ impl Map {
     pub fn build(&self, world: &mut World) {
         for (y, line) in self.tiles.iter().enumerate() {
             for (x, tile) in line.iter().enumerate() {
-                let position = Vector2::new(x as u32, y as u32);
+                let position = Vector2::new(x as i32, y as i32);
                 match tile {
                     Tile::Floor => create_floor(world, position),
                     Tile::Wall => create_wall(world, position),
@@ -64,4 +64,18 @@ impl Map {
             }
         }
     }
+}
+
+#[derive(PartialEq, Clone)]
+pub enum MoveCommand {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
+#[derive(Default)]
+pub struct InputQueue {
+    pub commands: Vec<MoveCommand>,
+    pub last_key: Option<MoveCommand>,
 }

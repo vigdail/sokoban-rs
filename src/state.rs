@@ -11,8 +11,7 @@ use log::info;
 
 use crate::{
     components::*,
-    entities::create_box,
-    resources::{Map, SpriteAtlases},
+    resources::{InputQueue, Map, SpriteAtlases},
 };
 
 pub struct MyState;
@@ -24,12 +23,12 @@ impl SimpleState for MyState {
         let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
 
         register_components(world);
+        world.insert(InputQueue::default());
         init_camera(world, &dimensions);
 
         load_sprites(world);
 
         create_map(world, Vector2::new(0.0, dimensions.height()));
-        create_box(world, Vector2::new(5, 1));
     }
 
     fn handle_event(
