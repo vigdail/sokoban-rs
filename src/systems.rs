@@ -20,6 +20,7 @@ impl<'a> System<'a> for CoordSystem {
             transform.set_translation_x((position.x * BLOCK_SIZE + BLOCK_SIZE / 2) as f32);
             transform
                 .set_translation_y(-((position.y * BLOCK_SIZE) as f32 - BLOCK_SIZE as f32 / 2.0));
+            transform.set_translation_z(position.z as f32);
         }
     }
 }

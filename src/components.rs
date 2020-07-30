@@ -20,4 +20,5 @@ pub struct BoxSpot;
 pub struct TilePosition {
     pub x: u32,
     pub y: u32,
+    pub z: i32,
 }

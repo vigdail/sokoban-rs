@@ -1,6 +1,6 @@
 use amethyst::{assets::Handle, core::math::Vector2, ecs::World, renderer::SpriteSheet};
 
-use crate::entities::{create_floor, create_wall};
+use crate::entities::*;
 
 pub struct SpriteAtlases {
     pub all: Handle<SpriteSheet>,
@@ -10,6 +10,9 @@ pub struct SpriteAtlases {
 pub enum Tile {
     Floor,
     Wall,
+    Box,
+    BoxSpot,
+    Player,
 }
 
 pub struct Map {
@@ -22,10 +25,14 @@ impl Map {
         let tiles = s
             .split("\n")
             .map(|line| {
-                line.chars()
+                line.trim()
+                    .chars()
                     .filter_map(|c| match c {
                         '#' => Some(Tile::Wall),
                         '.' => Some(Tile::Floor),
+                        '*' => Some(Tile::BoxSpot),
+                        'B' => Some(Tile::Box),
+                        '@' => Some(Tile::Player),
                         _ => None,
                     })
                     .collect()
@@ -41,6 +48,18 @@ impl Map {
                 match tile {
                     Tile::Floor => create_floor(world, position),
                     Tile::Wall => create_wall(world, position),
+                    Tile::Box => {
+                        create_floor(world, position);
+                        create_box(world, position);
+                    }
+                    Tile::BoxSpot => {
+                        create_floor(world, position);
+                        create_box_spot(world, position);
+                    }
+                    Tile::Player => {
+                        create_floor(world, position);
+                        create_player(world, position);
+                    }
                 }
             }
         }
