@@ -1,12 +1,16 @@
 use amethyst::{
     core::transform::Transform,
-    ecs::{Join, Read, ReadExpect, ReadStorage, System, WriteExpect, WriteStorage},
+    ecs::{
+        world::Index, Entities, Join, Read, ReadExpect, ReadStorage, System, WriteExpect,
+        WriteStorage,
+    },
     input::{InputHandler, StringBindings},
     window::ScreenDimensions,
 };
+use std::collections::HashMap;
 
 use crate::{
-    components::{Player, TilePosition},
+    components::{Immovable, Movable, Player, TilePosition},
     resources::{InputQueue, Map, MoveCommand},
     BLOCK_SIZE,
 };
@@ -25,7 +29,7 @@ impl<'a> System<'a> for CoordSystem {
             transform
                 .set_translation_x((position.x * BLOCK_SIZE as i32 + BLOCK_SIZE as i32 / 2) as f32);
             transform.set_translation_y(
-                -((position.y * BLOCK_SIZE as i32) as f32 - BLOCK_SIZE as f32 / 2.0),
+                -((position.y * BLOCK_SIZE as i32) as f32 + BLOCK_SIZE as f32 / 2.0),
             );
             transform.set_translation_z(position.z as f32);
         }
@@ -65,16 +69,67 @@ impl<'a> System<'a> for MoveSystem {
     type SystemData = (
         ReadStorage<'a, Player>,
         WriteStorage<'a, TilePosition>,
+        ReadStorage<'a, Movable>,
+        ReadStorage<'a, Immovable>,
         WriteExpect<'a, InputQueue>,
+        ReadExpect<'a, Map>,
+        Entities<'a>,
     );
-    fn run(&mut self, (players, mut positions, mut input_queue): Self::SystemData) {
-        for (_player, position) in (&players, &mut positions).join() {
-            if let Some(command) = input_queue.commands.pop() {
-                match command {
-                    MoveCommand::Up => position.y -= 1,
-                    MoveCommand::Down => position.y += 1,
-                    MoveCommand::Left => position.x -= 1,
-                    MoveCommand::Right => position.x += 1,
+    fn run(
+        &mut self,
+        (players, mut positions, movables, immovables, mut input_queue, map, entities): Self::SystemData,
+    ) {
+        let mut to_move = Vec::new();
+        if let Some(command) = input_queue.commands.pop() {
+            for (_player, position) in (&players, &positions).join() {
+                let mov: HashMap<(i32, i32), Index> = (&entities, &movables, &positions)
+                    .join()
+                    .map(|(e, _, p)| ((p.x, p.y), e.id()))
+                    .collect();
+                let immov: HashMap<(i32, i32), Index> = (&entities, &immovables, &positions)
+                    .join()
+                    .map(|(e, _, p)| ((p.x, p.y), e.id()))
+                    .collect();
+
+                let (start, end, is_x) = match command {
+                    MoveCommand::Up => (position.y, 0, false),
+                    MoveCommand::Down => (position.y, map.height() as i32, false),
+                    MoveCommand::Left => (position.x, 0, true),
+                    MoveCommand::Right => (position.x, map.width() as i32, true),
+                };
+
+                let range = if start < end {
+                    (start..end).collect::<Vec<_>>()
+                } else {
+                    (end..=start).rev().collect::<Vec<_>>()
+                };
+
+                for p in range {
+                    let pos = if is_x {
+                        (p, position.y)
+                    } else {
+                        (position.x, p)
+                    };
+
+                    match mov.get(&pos) {
+                        Some(id) => to_move.push((command.clone(), id.clone())),
+                        None => match immov.get(&pos) {
+                            Some(_) => to_move.clear(),
+                            None => break,
+                        },
+                    }
+                }
+            }
+
+            for (key, id) in to_move {
+                let position = positions.get_mut(entities.entity(id));
+                if let Some(position) = position {
+                    match key {
+                        MoveCommand::Up => position.y -= 1,
+                        MoveCommand::Down => position.y += 1,
+                        MoveCommand::Left => position.x -= 1,
+                        MoveCommand::Right => position.x += 1,
+                    }
                 }
             }
         }

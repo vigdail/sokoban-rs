@@ -56,6 +56,8 @@ fn register_components(world: &mut World) {
     world.register::<TilePosition>();
     world.register::<Box>();
     world.register::<BoxSpot>();
+    world.register::<Movable>();
+    world.register::<Immovable>();
 }
 
 fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {

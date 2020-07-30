@@ -23,6 +23,7 @@ pub struct Map {
 impl Map {
     pub fn from_str(position: Vector2<f32>, s: &str) -> Self {
         let tiles = s
+            .trim()
             .split("\n")
             .map(|line| {
                 line.trim()
@@ -63,6 +64,14 @@ impl Map {
                 }
             }
         }
+    }
+
+    pub fn width(&self) -> usize {
+        self.tiles.get(0).unwrap_or(&vec![]).len()
+    }
+
+    pub fn height(&self) -> usize {
+        self.tiles.len()
     }
 }
 

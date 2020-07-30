@@ -5,7 +5,7 @@ use amethyst::{
 };
 
 use crate::{
-    components::{Box, BoxSpot, Player, TilePosition, Wall},
+    components::{Box, BoxSpot, Immovable, Movable, Player, TilePosition, Wall},
     resources::SpriteAtlases,
 };
 
@@ -24,6 +24,7 @@ pub fn create_wall(world: &mut World, position: Vector2<i32>) {
             y: position.y,
             z: 1,
         })
+        .with(Immovable)
         .with(SpriteRender {
             sprite_sheet: handle,
             sprite_number: 1,
@@ -46,6 +47,7 @@ pub fn create_box(world: &mut World, position: Vector2<i32>) {
             y: position.y,
             z: 2,
         })
+        .with(Movable)
         .with(SpriteRender {
             sprite_sheet: handle,
             sprite_number: 2,
@@ -112,6 +114,7 @@ pub fn create_player(world: &mut World, position: Vector2<i32>) {
             y: position.y,
             z: 5,
         })
+        .with(Movable)
         .with(SpriteRender {
             sprite_sheet: handle,
             sprite_number: 4,

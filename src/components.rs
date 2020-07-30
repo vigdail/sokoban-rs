@@ -22,3 +22,11 @@ pub struct TilePosition {
     pub y: i32,
     pub z: i32,
 }
+
+#[derive(Component, Default)]
+#[storage(NullStorage)]
+pub struct Movable;
+
+#[derive(Component, Default)]
+#[storage(NullStorage)]
+pub struct Immovable;
