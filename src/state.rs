@@ -11,7 +11,7 @@ use log::info;
 
 use crate::{
     components::*,
-    resources::{InputQueue, Map, SpriteAtlases},
+    resources::{Gameplay, InputQueue, Map, SpriteAtlases},
 };
 
 pub struct MyState;
@@ -23,7 +23,7 @@ impl SimpleState for MyState {
         let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
 
         register_components(world);
-        world.insert(InputQueue::default());
+        insert_resources(world);
         init_camera(world, &dimensions);
 
         load_sprites(world);
@@ -58,6 +58,11 @@ fn register_components(world: &mut World) {
     world.register::<BoxSpot>();
     world.register::<Movable>();
     world.register::<Immovable>();
+}
+
+fn insert_resources(world: &mut World) {
+    world.insert(InputQueue::default());
+    world.insert(Gameplay::default());
 }
 
 fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {

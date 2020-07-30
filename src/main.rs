@@ -10,7 +10,7 @@ use amethyst::{
     utils::application_root_dir,
 };
 
-use crate::systems::{CoordSystem, InputSystem, MoveSystem};
+use crate::systems::{CoordSystem, InputSystem, MoveSystem, WinSystem};
 
 mod components;
 mod entities;
@@ -36,6 +36,7 @@ fn main() -> amethyst::Result<()> {
         .with(InputSystem, "input_mapping_system", &[])
         .with(MoveSystem, "move_system", &[])
         .with(CoordSystem, "coord_system", &[])
+        .with(WinSystem, "win_system", &[])
         .with_bundle(input_bundle)?
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()

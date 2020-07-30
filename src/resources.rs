@@ -88,3 +88,20 @@ pub struct InputQueue {
     pub commands: Vec<MoveCommand>,
     pub last_key: Option<MoveCommand>,
 }
+
+pub enum GameplayState {
+    Playing,
+    Win,
+}
+
+impl Default for GameplayState {
+    fn default() -> Self {
+        Self::Playing
+    }
+}
+
+#[derive(Default)]
+pub struct Gameplay {
+    pub steps: u32,
+    pub state: GameplayState,
+}
