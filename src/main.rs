@@ -9,7 +9,15 @@ use amethyst::{
     utils::application_root_dir,
 };
 
+use crate::systems::CoordSystem;
+
+mod components;
+mod entities;
+mod resources;
 mod state;
+mod systems;
+
+pub const BLOCK_SIZE: u32 = 32;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
@@ -21,6 +29,7 @@ fn main() -> amethyst::Result<()> {
 
     let game_data = GameDataBuilder::default()
         .with_bundle(TransformBundle::new())?
+        .with(CoordSystem, "coord_system", &[])
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(

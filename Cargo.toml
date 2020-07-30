@@ -1,12 +1,12 @@
 [package]
-name = "amethyst-starter-2d"
-version = "0.2.0"
-authors = ["Hilmar Wiegand <me@hwgnd.de>"]
+authors = ["Vigdail <vigdail.dev@gmail.com>"]
 edition = "2018"
+name = "sokoban-rs"
+version = "0.2.0"
 
 [dependencies]
 amethyst = "0.15.0"
-log = { version = "0.4.8", features = ["serde"] }
+log = {version = "0.4.8", features = ["serde"]}
 
 [features]
 default = ["vulkan"]

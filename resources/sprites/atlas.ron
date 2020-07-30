@@ -1,0 +1,55 @@
+//
+//  Sprite sheet data for Amethyst Game Engine: https://www.amethyst.rs
+//  This file was created by TexturePacker: https://www.codeandweb.com/texturepacker
+//
+//  $TexturePacker:SmartUpdate:264e4e27669ed88feb9711607d861d86:7d23f0e05597c8c35ca40d01b09d0a78:15340c7f90aa1aea72f91647942d58df$
+//
+
+#![enable(implicit_some)]
+List((
+    texture_width: 124,
+    texture_height: 38,
+    sprites: [
+        (
+            // 0: 1_floor.png
+            x: 1,
+            y: 1,
+            width: 32,
+            height: 32,
+            offsets: (0, 0),
+        ),
+        (
+            // 1: 2_wall.png
+            x: 35,
+            y: 1,
+            width: 32,
+            height: 32,
+            offsets: (0, 0),
+        ),
+        (
+            // 2: 3_box.png
+            x: 69,
+            y: 1,
+            width: 32,
+            height: 32,
+            offsets: (0, 0),
+        ),
+        (
+            // 3: 4_box_spot.png
+            x: 103,
+            y: 29,
+            width: 8,
+            height: 8,
+            offsets: (0, 0),
+        ),
+        (
+            // 4: 5_player.png
+            x: 103,
+            y: 1,
+            width: 20,
+            height: 26,
+            offsets: (0, 0),
+        )
+    ]
+))
+
