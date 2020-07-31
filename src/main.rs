@@ -7,10 +7,11 @@ use amethyst::{
         types::DefaultBackend,
         RenderingBundle,
     },
+    ui::{RenderUi, UiBundle},
     utils::application_root_dir,
 };
 
-use crate::systems::{CoordSystem, InputSystem, MoveSystem, WinSystem};
+use crate::systems::{CoordSystem, InputSystem, MoveSystem, UpdateUISystem, WinSystem};
 
 mod components;
 mod entities;
@@ -37,13 +38,16 @@ fn main() -> amethyst::Result<()> {
         .with(MoveSystem, "move_system", &[])
         .with(CoordSystem, "coord_system", &[])
         .with(WinSystem, "win_system", &[])
+        .with(UpdateUISystem, "update_ui", &["win_system"])
         .with_bundle(input_bundle)?
+        .with_bundle(UiBundle::<StringBindings>::new())?
         .with_bundle(
             RenderingBundle::<DefaultBackend>::new()
                 .with_plugin(
                     RenderToWindow::from_config_path(display_config)?
                         .with_clear([0.34, 0.36, 0.52, 1.0]),
                 )
+                .with_plugin(RenderUi::default())
                 .with_plugin(RenderFlat2D::default()),
         )?;
 

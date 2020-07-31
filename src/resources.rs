@@ -1,4 +1,10 @@
-use amethyst::{assets::Handle, core::math::Vector2, ecs::World, renderer::SpriteSheet};
+use amethyst::{
+    assets::Handle,
+    core::math::Vector2,
+    ecs::{Entity, World},
+    renderer::SpriteSheet,
+};
+use std::fmt::Display;
 
 use crate::entities::*;
 
@@ -100,8 +106,22 @@ impl Default for GameplayState {
     }
 }
 
+impl Display for GameplayState {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+        f.write_str(match self {
+            GameplayState::Playing => "Play",
+            GameplayState::Win => "Win",
+        })
+    }
+}
+
 #[derive(Default)]
 pub struct Gameplay {
     pub steps: u32,
     pub state: GameplayState,
+}
+
+pub struct GameUI {
+    pub state_text: Entity,
+    pub steps_text: Entity,
 }

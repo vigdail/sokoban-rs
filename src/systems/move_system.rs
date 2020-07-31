@@ -5,7 +5,7 @@ use std::collections::HashMap;
 
 use crate::{
     components::{Immovable, Movable, Player, TilePosition},
-    resources::{InputQueue, Map, MoveCommand},
+    resources::{Gameplay, InputQueue, Map, MoveCommand},
 };
 
 pub struct MoveSystem;
@@ -18,11 +18,21 @@ impl<'a> System<'a> for MoveSystem {
         ReadStorage<'a, Immovable>,
         WriteExpect<'a, InputQueue>,
         ReadExpect<'a, Map>,
+        WriteExpect<'a, Gameplay>,
         Entities<'a>,
     );
     fn run(
         &mut self,
-        (players, mut positions, movables, immovables, mut input_queue, map, entities): Self::SystemData,
+        (
+            players,
+            mut positions,
+            movables,
+            immovables,
+            mut input_queue,
+            map,
+            mut gameplay,
+            entities,
+        ): Self::SystemData,
     ) {
         let mut to_move = Vec::new();
         if let Some(command) = input_queue.commands.pop() {
@@ -66,6 +76,9 @@ impl<'a> System<'a> for MoveSystem {
                 }
             }
 
+            if to_move.len() > 0 {
+                gameplay.steps += 1;
+            }
             for (key, id) in to_move {
                 let position = positions.get_mut(entities.entity(id));
                 if let Some(position) = position {

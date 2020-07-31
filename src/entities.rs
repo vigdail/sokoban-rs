@@ -85,7 +85,6 @@ pub fn create_floor(world: &mut World, position: Vector2<i32>) {
 
     world
         .create_entity()
-        .with(Box)
         .with(Transform::default())
         .with(TilePosition {
             x: position.x,

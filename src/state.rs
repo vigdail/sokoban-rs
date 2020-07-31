@@ -4,6 +4,7 @@ use amethyst::{
     input::{get_key, is_close_requested, is_key_down, VirtualKeyCode},
     prelude::*,
     renderer::{Camera, ImageFormat, SpriteSheet, SpriteSheetFormat, Texture},
+    ui::{Anchor, TtfFormat, UiText, UiTransform},
     window::ScreenDimensions,
 };
 
@@ -11,7 +12,7 @@ use log::info;
 
 use crate::{
     components::*,
-    resources::{Gameplay, InputQueue, Map, SpriteAtlases},
+    resources::{GameUI, Gameplay, InputQueue, Map, SpriteAtlases},
 };
 
 pub struct MyState;
@@ -29,6 +30,7 @@ impl SimpleState for MyState {
         load_sprites(world);
 
         create_map(world, Vector2::new(0.0, dimensions.height()));
+        create_ui(world, dimensions);
     }
 
     fn handle_event(
@@ -117,4 +119,62 @@ fn create_map(world: &mut World, position: Vector2<f32>) {
     let map = Map::from_str(position, s);
     map.build(world);
     world.insert(map);
+}
+
+fn create_ui(world: &mut World, _dimensions: ScreenDimensions) {
+    let font = world.read_resource::<Loader>().load(
+        "fonts/square.ttf",
+        TtfFormat,
+        (),
+        &world.read_resource(),
+    );
+
+    let state_text_transform = UiTransform::new(
+        "state_text".to_string(),
+        Anchor::TopRight,
+        Anchor::TopRight,
+        0.0,
+        -60.0,
+        1.,
+        170.,
+        50.,
+    );
+
+    let state_text = world
+        .create_entity()
+        .with(state_text_transform)
+        .with(UiText::new(
+            font.clone(),
+            "Play".to_string(),
+            [1., 1., 1., 1.],
+            50.,
+        ))
+        .build();
+
+    let steps_text_transform = UiTransform::new(
+        "steps_text".to_string(),
+        Anchor::TopRight,
+        Anchor::TopRight,
+        0.0,
+        0.0,
+        1.,
+        170.,
+        50.,
+    );
+
+    let steps_text = world
+        .create_entity()
+        .with(steps_text_transform)
+        .with(UiText::new(
+            font.clone(),
+            "0".to_string(),
+            [1., 1., 1., 1.],
+            50.,
+        ))
+        .build();
+
+    world.insert(GameUI {
+        state_text,
+        steps_text,
+    });
 }

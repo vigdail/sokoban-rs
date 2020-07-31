@@ -8,7 +8,7 @@ pub struct Wall;
 #[storage(NullStorage)]
 pub struct Player;
 
-#[derive(Component, Default)]
+#[derive(Component, Default, Debug)]
 #[storage(NullStorage)]
 pub struct Box;
 
@@ -16,7 +16,7 @@ pub struct Box;
 #[storage(NullStorage)]
 pub struct BoxSpot;
 
-#[derive(Component)]
+#[derive(Component, Debug)]
 pub struct TilePosition {
     pub x: i32,
     pub y: i32,
