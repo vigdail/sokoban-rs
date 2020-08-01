@@ -1,10 +1,8 @@
 use amethyst::{
-    assets::{AssetStorage, Loader},
     core::{math::Vector2, transform::Transform},
     input::{get_key, is_close_requested, is_key_down, VirtualKeyCode},
     prelude::*,
-    renderer::{Camera, ImageFormat, SpriteSheet, SpriteSheetFormat, Texture},
-    ui::{Anchor, TtfFormat, UiText, UiTransform},
+    renderer::Camera,
     window::ScreenDimensions,
 };
 use log::info;

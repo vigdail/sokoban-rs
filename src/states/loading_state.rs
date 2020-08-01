@@ -1,17 +1,15 @@
 use amethyst::{
     assets::{AssetStorage, Loader, ProgressCounter},
-    core::{math::Vector2, transform::Transform},
     prelude::*,
-    renderer::{Camera, ImageFormat, SpriteSheet, SpriteSheetFormat, Texture},
+    renderer::{ImageFormat, SpriteSheet, SpriteSheetFormat, Texture},
     ui::{Anchor, TtfFormat, UiText, UiTransform},
-    window::ScreenDimensions,
 };
 
 use log::info;
 
 use crate::{
     components,
-    resources::{GameUI, Gameplay, InputQueue, Map, SpriteAtlases},
+    resources::{GameUI, Gameplay, InputQueue, SpriteAtlases},
     states::GameplayState,
 };
 
@@ -27,10 +25,8 @@ impl Default for LoadingState {
 
 impl SimpleState for LoadingState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
-        let world = data.world;
-
-        let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
         info!("Loading...");
+        let world = data.world;
 
         register_components(world);
         insert_resources(world);
@@ -38,7 +34,6 @@ impl SimpleState for LoadingState {
         let mut progress_counter = ProgressCounter::new();
         progress_counter = load_sprites(world, progress_counter);
 
-        // create_map(world, Vector2::new(0.0, dimensions.height()));
         create_ui(world, &mut progress_counter);
 
         self.progress = Some(progress_counter);
@@ -70,17 +65,6 @@ fn insert_resources(world: &mut World) {
     world.insert(Gameplay::default());
 }
 
-fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
-    let mut transform = Transform::default();
-    transform.set_translation_xyz(dimensions.width() * 0.5, -dimensions.height() * 0.5, 10.);
-
-    world
-        .create_entity()
-        .with(Camera::standard_2d(dimensions.width(), dimensions.height()))
-        .with(transform)
-        .build();
-}
-
 fn load_sprites(world: &mut World, mut progress_counter: ProgressCounter) -> ProgressCounter {
     let texture_handle = {
         let loader = world.read_resource::<Loader>();
@@ -107,23 +91,6 @@ fn load_sprites(world: &mut World, mut progress_counter: ProgressCounter) -> Pro
     world.insert(SpriteAtlases { all: sheet_handle });
 
     progress_counter
-}
-
-fn create_map(world: &mut World, position: Vector2<f32>) {
-    let s = "
-    ##########
-    #........#
-    #...*....#
-    #....B...#
-    #........#
-    #.@......#
-    #........#
-    #........#
-    ##########
-    ";
-    let map = Map::from_str(position, s);
-    map.build(world);
-    world.insert(map);
 }
 
 fn create_ui(world: &mut World, progress_counter: &mut ProgressCounter) {
