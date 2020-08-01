@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use crate::{
     components::{Box, BoxSpot, TilePosition},
-    resources::{Gameplay, GameplayState},
+    resources::{GameState, Gameplay},
 };
 
 pub struct WinSystem;
@@ -24,11 +24,11 @@ impl<'a> System<'a> for WinSystem {
 
         for (_, position) in (&spots, &positions).join() {
             if !box_map.contains_key(&(position.x, position.y)) {
-                state.state = GameplayState::Playing;
+                state.state = GameState::Playing;
                 return;
             }
         }
 
-        state.state = GameplayState::Win;
+        state.state = GameState::Win;
     }
 }
