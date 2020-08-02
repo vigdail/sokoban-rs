@@ -1,9 +1,9 @@
 use amethyst::{
-    ecs::{Read, System, WriteExpect},
+    ecs::{Read, ReadExpect, System, WriteExpect},
     input::{InputHandler, StringBindings},
 };
 
-use crate::resources::{InputQueue, MoveCommand};
+use crate::resources::{GameState, Gameplay, InputQueue, MoveCommand};
 
 pub struct InputSystem;
 
@@ -11,8 +11,13 @@ impl<'a> System<'a> for InputSystem {
     type SystemData = (
         Read<'a, InputHandler<StringBindings>>,
         WriteExpect<'a, InputQueue>,
+        ReadExpect<'a, Gameplay>,
     );
-    fn run(&mut self, (input, mut queue): Self::SystemData) {
+    fn run(&mut self, (input, mut queue, gameplay): Self::SystemData) {
+        if gameplay.state == GameState::Win {
+            return;
+        }
+
         // @TODO: Refactor this in some way
         let command = if Some(true) == input.action_is_down("up") {
             Some(MoveCommand::Up)

@@ -8,7 +8,10 @@ use amethyst::{
 };
 use log::info;
 
-use crate::resources::{AssetManager, GameState, GameUI, Gameplay, Map};
+use crate::{
+    resources::{AssetManager, GameState, GameUI, Gameplay, Map},
+    states::WinState,
+};
 
 pub struct GameplayState;
 
@@ -20,7 +23,7 @@ impl SimpleState for GameplayState {
 
     fn handle_event(
         &mut self,
-        mut _data: StateData<'_, GameData<'_, '_>>,
+        data: StateData<'_, GameData<'_, '_>>,
         event: StateEvent,
     ) -> SimpleTrans {
         if let StateEvent::Window(event) = &event {
@@ -32,8 +35,9 @@ impl SimpleState for GameplayState {
                 return Trans::Switch(Box::new(GameplayState));
             }
 
-            if let Some(event) = get_key(&event) {
-                info!("handling key event: {:?}", event);
+            let game = data.world.read_resource::<Gameplay>();
+            if game.state == GameState::Win {
+                return Trans::Switch(Box::new(WinState::default()));
             }
         }
 
@@ -50,7 +54,7 @@ fn reset_game(world: &mut World) {
     world.delete_all();
     init_camera(world);
     create_ui(world);
-    create_map(world);
+    load_map(world);
 }
 
 fn init_camera(world: &mut World) {
@@ -66,19 +70,13 @@ fn init_camera(world: &mut World) {
         .build();
 }
 
-fn create_map(world: &mut World) {
-    let s = "
-    ##########
-    #........#
-    #...*....#
-    #....B...#
-    #........#
-    #.@......#
-    #........#
-    #........#
-    ##########
-    ";
-    let map = Map::from_str(s);
+fn load_map(world: &mut World) {
+    let level_index = world.read_resource::<Gameplay>().current_level_index + 1;
+
+    // @TODO: Custom format for Map loading
+    let s = std::fs::read_to_string(format!("./resources/maps/level{}.txt", level_index))
+        .expect(&format!("Map level{} exist", level_index));
+    let map = Map::from_str(&s);
     map.build(world);
     world.insert(map);
 }

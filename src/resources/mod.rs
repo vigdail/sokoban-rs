@@ -22,6 +22,7 @@ pub struct InputQueue {
     pub last_key: Option<MoveCommand>,
 }
 
+#[derive(PartialEq)]
 pub enum GameState {
     Playing,
     Win,
@@ -45,7 +46,18 @@ impl Display for GameState {
 #[derive(Default)]
 pub struct Gameplay {
     pub steps: u32,
+    pub current_level_index: usize,
     pub state: GameState,
+}
+
+impl Gameplay {
+    pub fn next_level(&mut self) {
+        if self.current_level_index == 1 {
+            self.current_level_index = 0;
+        } else {
+            self.current_level_index = 1;
+        }
+    }
 }
 
 #[derive(Default)]
