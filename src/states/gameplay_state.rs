@@ -15,13 +15,7 @@ pub struct GameplayState;
 impl SimpleState for GameplayState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         info!("Gameplay state start");
-        let world = data.world;
-
-        let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
-
-        init_camera(world, &dimensions);
-        create_ui(world);
-        create_map(world, Vector2::new(0.0, dimensions.height()));
+        reset_game(data.world);
     }
 
     fn handle_event(
@@ -43,7 +37,16 @@ impl SimpleState for GameplayState {
     }
 }
 
-fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
+fn reset_game(world: &mut World) {
+    world.delete_all();
+    init_camera(world);
+    create_ui(world);
+    create_map(world);
+}
+
+fn init_camera(world: &mut World) {
+    let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
+
     let mut transform = Transform::default();
     transform.set_translation_xyz(dimensions.width() * 0.5, -dimensions.height() * 0.5, 10.);
 
@@ -54,7 +57,7 @@ fn init_camera(world: &mut World, dimensions: &ScreenDimensions) {
         .build();
 }
 
-fn create_map(world: &mut World, position: Vector2<f32>) {
+fn create_map(world: &mut World) {
     let s = "
     ##########
     #........#
@@ -66,7 +69,7 @@ fn create_map(world: &mut World, position: Vector2<f32>) {
     #........#
     ##########
     ";
-    let map = Map::from_str(position, s);
+    let map = Map::from_str(s);
     map.build(world);
     world.insert(map);
 }

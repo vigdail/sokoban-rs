@@ -19,7 +19,6 @@ impl SimpleState for LoadingState {
         insert_resources(world);
 
         load_sprites(world);
-
         load_font(world);
     }
 

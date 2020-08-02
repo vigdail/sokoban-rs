@@ -12,12 +12,11 @@ enum Tile {
 }
 
 pub struct Map {
-    pub position: Vector2<f32>,
     tiles: Vec<Vec<Tile>>,
 }
 
 impl Map {
-    pub fn from_str(position: Vector2<f32>, s: &str) -> Self {
+    pub fn from_str(s: &str) -> Self {
         let tiles = s
             .trim()
             .split("\n")
@@ -35,7 +34,7 @@ impl Map {
                     .collect()
             })
             .collect::<Vec<Vec<Tile>>>();
-        Self { position, tiles }
+        Self { tiles }
     }
 
     pub fn build(&self, world: &mut World) {
