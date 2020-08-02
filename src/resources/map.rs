@@ -1,19 +1,9 @@
-use amethyst::{
-    assets::Handle,
-    core::math::Vector2,
-    ecs::{Entity, World},
-    renderer::SpriteSheet,
-};
-use std::fmt::Display;
+use amethyst::{core::math::Vector2, ecs::World};
 
 use crate::entities::*;
 
-pub struct SpriteAtlases {
-    pub all: Handle<SpriteSheet>,
-}
-
 #[derive(Clone)]
-pub enum Tile {
+enum Tile {
     Floor,
     Wall,
     Box,
@@ -79,49 +69,4 @@ impl Map {
     pub fn height(&self) -> usize {
         self.tiles.len()
     }
-}
-
-#[derive(PartialEq, Clone)]
-pub enum MoveCommand {
-    Up,
-    Down,
-    Left,
-    Right,
-}
-
-#[derive(Default)]
-pub struct InputQueue {
-    pub commands: Vec<MoveCommand>,
-    pub last_key: Option<MoveCommand>,
-}
-
-pub enum GameState {
-    Playing,
-    Win,
-}
-
-impl Default for GameState {
-    fn default() -> Self {
-        Self::Playing
-    }
-}
-
-impl Display for GameState {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
-        f.write_str(match self {
-            GameState::Playing => "Play",
-            GameState::Win => "Win",
-        })
-    }
-}
-
-#[derive(Default)]
-pub struct Gameplay {
-    pub steps: u32,
-    pub state: GameState,
-}
-
-pub struct GameUI {
-    pub state_text: Entity,
-    pub steps_text: Entity,
 }
