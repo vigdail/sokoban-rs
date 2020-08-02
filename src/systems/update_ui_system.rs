@@ -1,5 +1,5 @@
 use amethyst::{
-    ecs::{ReadExpect, ReadStorage, System, WriteStorage},
+    ecs::{ReadExpect, System, WriteStorage},
     ui::UiText,
 };
 

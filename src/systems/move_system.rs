@@ -1,5 +1,5 @@
 use amethyst::ecs::{
-    world::Index, Entities, Join, ReadExpect, ReadStorage, System, WriteExpect, WriteStorage,
+    world::Index, Entities, Join, Read, ReadStorage, System, WriteExpect, WriteStorage,
 };
 use std::collections::HashMap;
 
@@ -17,7 +17,7 @@ impl<'a> System<'a> for MoveSystem {
         ReadStorage<'a, Movable>,
         ReadStorage<'a, Immovable>,
         WriteExpect<'a, InputQueue>,
-        ReadExpect<'a, Map>,
+        Option<Read<'a, Map>>,
         WriteExpect<'a, Gameplay>,
         Entities<'a>,
     );
@@ -34,6 +34,11 @@ impl<'a> System<'a> for MoveSystem {
             entities,
         ): Self::SystemData,
     ) {
+        if map.is_none() {
+            return;
+        }
+        let map = map.unwrap();
+
         let mut to_move = Vec::new();
         if let Some(command) = input_queue.commands.pop() {
             for (_player, position) in (&players, &positions).join() {

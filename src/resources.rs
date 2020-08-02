@@ -95,22 +95,22 @@ pub struct InputQueue {
     pub last_key: Option<MoveCommand>,
 }
 
-pub enum GameplayState {
+pub enum GameState {
     Playing,
     Win,
 }
 
-impl Default for GameplayState {
+impl Default for GameState {
     fn default() -> Self {
         Self::Playing
     }
 }
 
-impl Display for GameplayState {
+impl Display for GameState {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
         f.write_str(match self {
-            GameplayState::Playing => "Play",
-            GameplayState::Win => "Win",
+            GameState::Playing => "Play",
+            GameState::Win => "Win",
         })
     }
 }
@@ -118,7 +118,7 @@ impl Display for GameplayState {
 #[derive(Default)]
 pub struct Gameplay {
     pub steps: u32,
-    pub state: GameplayState,
+    pub state: GameState,
 }
 
 pub struct GameUI {
