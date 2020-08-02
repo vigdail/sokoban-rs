@@ -1,5 +1,5 @@
 use amethyst::{
-    core::{math::Vector2, transform::Transform},
+    core::transform::Transform,
     input::{get_key, is_close_requested, is_key_down, VirtualKeyCode},
     prelude::*,
     renderer::Camera,
@@ -8,7 +8,7 @@ use amethyst::{
 };
 use log::info;
 
-use crate::resources::{AssetManager, GameUI, Map};
+use crate::resources::{AssetManager, GameState, GameUI, Gameplay, Map};
 
 pub struct GameplayState;
 
@@ -28,6 +28,10 @@ impl SimpleState for GameplayState {
                 return Trans::Quit;
             }
 
+            if is_key_down(&event, VirtualKeyCode::R) {
+                return Trans::Switch(Box::new(GameplayState));
+            }
+
             if let Some(event) = get_key(&event) {
                 info!("handling key event: {:?}", event);
             }
@@ -38,6 +42,11 @@ impl SimpleState for GameplayState {
 }
 
 fn reset_game(world: &mut World) {
+    {
+        let mut game_state = world.write_resource::<Gameplay>();
+        game_state.steps = 0;
+        game_state.state = GameState::Playing;
+    }
     world.delete_all();
     init_camera(world);
     create_ui(world);
