@@ -1,15 +1,12 @@
-use amethyst::{assets::Handle, ecs::Entity, renderer::SpriteSheet};
+use amethyst::ecs::Entity;
+use std::collections::HashMap;
 use std::fmt::Display;
 
 pub mod asset_manager;
 pub mod map;
 
-pub use asset_manager::AssetManager;
+pub use asset_manager::{AssetManager, AssetType};
 pub use map::Map;
-
-pub struct SpriteAtlases {
-    pub all: Handle<SpriteSheet>,
-}
 
 #[derive(PartialEq, Clone)]
 pub enum MoveCommand {
@@ -51,7 +48,13 @@ pub struct Gameplay {
     pub state: GameState,
 }
 
+#[derive(Default)]
 pub struct GameUI {
-    pub state_text: Entity,
-    pub steps_text: Entity,
+    pub texts: HashMap<String, Entity>,
+}
+
+impl GameUI {
+    pub fn insert_text(&mut self, name: &str, text: Entity) {
+        self.texts.insert(name.to_string(), text);
+    }
 }

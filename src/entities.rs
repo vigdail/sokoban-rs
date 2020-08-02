@@ -6,13 +6,13 @@ use amethyst::{
 
 use crate::{
     components::{Box, BoxSpot, Immovable, Movable, Player, TilePosition, Wall},
-    resources::SpriteAtlases,
+    resources::AssetManager,
 };
 
 pub fn create_wall(world: &mut World, position: Vector2<i32>) {
     let handle = {
-        let atlases = world.read_resource::<SpriteAtlases>();
-        atlases.all.clone()
+        let atlases = world.read_resource::<AssetManager>();
+        atlases.sprites.get("atlas").unwrap().clone()
     };
 
     world
@@ -34,8 +34,8 @@ pub fn create_wall(world: &mut World, position: Vector2<i32>) {
 
 pub fn create_box(world: &mut World, position: Vector2<i32>) {
     let handle = {
-        let atlases = world.read_resource::<SpriteAtlases>();
-        atlases.all.clone()
+        let atlases = world.read_resource::<AssetManager>();
+        atlases.sprites.get("atlas").unwrap().clone()
     };
 
     world
@@ -57,8 +57,8 @@ pub fn create_box(world: &mut World, position: Vector2<i32>) {
 
 pub fn create_box_spot(world: &mut World, position: Vector2<i32>) {
     let handle = {
-        let atlases = world.read_resource::<SpriteAtlases>();
-        atlases.all.clone()
+        let atlases = world.read_resource::<AssetManager>();
+        atlases.sprites.get("atlas").unwrap().clone()
     };
 
     world
@@ -79,8 +79,8 @@ pub fn create_box_spot(world: &mut World, position: Vector2<i32>) {
 
 pub fn create_floor(world: &mut World, position: Vector2<i32>) {
     let handle = {
-        let atlases = world.read_resource::<SpriteAtlases>();
-        atlases.all.clone()
+        let atlases = world.read_resource::<AssetManager>();
+        atlases.sprites.get("atlas").unwrap().clone()
     };
 
     world
@@ -100,8 +100,8 @@ pub fn create_floor(world: &mut World, position: Vector2<i32>) {
 
 pub fn create_player(world: &mut World, position: Vector2<i32>) {
     let handle = {
-        let atlases = world.read_resource::<SpriteAtlases>();
-        atlases.all.clone()
+        let atlases = world.read_resource::<AssetManager>();
+        atlases.sprites.get("atlas").unwrap().clone()
     };
 
     world

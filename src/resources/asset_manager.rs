@@ -11,6 +11,7 @@ pub enum AssetType {
     Font,
 }
 
+#[derive(Default)]
 pub struct AssetManager {
     pub progress: ProgressCounter,
     pub sprites: HashMap<String, Handle<SpriteSheet>>,
@@ -18,7 +19,7 @@ pub struct AssetManager {
 }
 
 impl AssetManager {
-    pub fn insert(&mut self, world: &mut World, name: &str, asset_type: AssetType) {
+    pub fn insert(&mut self, world: &World, name: &str, asset_type: AssetType) {
         match asset_type {
             AssetType::Sprite => {
                 let handle = self.load_sprite_sheet(world, name);

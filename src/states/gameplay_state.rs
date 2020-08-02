@@ -3,11 +3,12 @@ use amethyst::{
     input::{get_key, is_close_requested, is_key_down, VirtualKeyCode},
     prelude::*,
     renderer::Camera,
+    ui::{Anchor, UiText, UiTransform},
     window::ScreenDimensions,
 };
 use log::info;
 
-use crate::resources::Map;
+use crate::resources::{AssetManager, GameUI, Map};
 
 pub struct GameplayState;
 
@@ -19,6 +20,7 @@ impl SimpleState for GameplayState {
         let dimensions = (*world.read_resource::<ScreenDimensions>()).clone();
 
         init_camera(world, &dimensions);
+        create_ui(world);
         create_map(world, Vector2::new(0.0, dimensions.height()));
     }
 
@@ -67,4 +69,59 @@ fn create_map(world: &mut World, position: Vector2<f32>) {
     let map = Map::from_str(position, s);
     map.build(world);
     world.insert(map);
+}
+
+fn create_ui(world: &mut World) {
+    let font = {
+        let manager = world.read_resource::<AssetManager>();
+        manager.font.clone().unwrap()
+    };
+    let state_text_transform = UiTransform::new(
+        "state_text".to_string(),
+        Anchor::TopRight,
+        Anchor::TopRight,
+        0.0,
+        -60.0,
+        1.,
+        170.,
+        50.,
+    );
+
+    let state_text = world
+        .create_entity()
+        .with(state_text_transform)
+        .with(UiText::new(
+            font.clone(),
+            "Play".to_string(),
+            [1., 1., 1., 1.],
+            50.,
+        ))
+        .build();
+
+    let steps_text_transform = UiTransform::new(
+        "steps_text".to_string(),
+        Anchor::TopRight,
+        Anchor::TopRight,
+        0.0,
+        0.0,
+        1.,
+        170.,
+        50.,
+    );
+
+    let steps_text = world
+        .create_entity()
+        .with(steps_text_transform)
+        .with(UiText::new(
+            font.clone(),
+            "0".to_string(),
+            [1., 1., 1., 1.],
+            50.,
+        ))
+        .build();
+
+    let mut game_ui = GameUI::default();
+    game_ui.insert_text("state", state_text);
+    game_ui.insert_text("steps", steps_text);
+    world.insert(game_ui);
 }
