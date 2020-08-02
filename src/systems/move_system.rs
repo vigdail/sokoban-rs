@@ -11,6 +11,7 @@ use crate::{
 pub struct MoveSystem;
 
 impl<'a> System<'a> for MoveSystem {
+    #[allow(clippy::type_complexity)]
     type SystemData = (
         ReadStorage<'a, Player>,
         WriteStorage<'a, TilePosition>,
@@ -21,6 +22,7 @@ impl<'a> System<'a> for MoveSystem {
         WriteExpect<'a, Gameplay>,
         Entities<'a>,
     );
+
     fn run(
         &mut self,
         (
@@ -72,7 +74,7 @@ impl<'a> System<'a> for MoveSystem {
                     };
 
                     match mov.get(&pos) {
-                        Some(id) => to_move.push((command.clone(), id.clone())),
+                        Some(&id) => to_move.push((command.clone(), id)),
                         None => match immov.get(&pos) {
                             Some(_) => to_move.clear(),
                             None => break,
@@ -81,7 +83,7 @@ impl<'a> System<'a> for MoveSystem {
                 }
             }
 
-            if to_move.len() > 0 {
+            if to_move.is_empty() {
                 gameplay.steps += 1;
             }
             for (key, id) in to_move {

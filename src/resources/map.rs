@@ -19,7 +19,7 @@ impl Map {
     pub fn from_str(s: &str) -> Self {
         let tiles = s
             .trim()
-            .split("\n")
+            .split('\n')
             .map(|line| {
                 line.trim()
                     .chars()

@@ -33,6 +33,6 @@ impl<'a> System<'a> for InputSystem {
         if command != queue.last_key && command.is_some() {
             queue.commands.push(command.clone().unwrap());
         }
-        queue.last_key = command.clone();
+        queue.last_key = command;
     }
 }

@@ -44,18 +44,14 @@ impl AssetManager {
             )
         };
 
-        let sheet_handle = {
-            let loader = world.read_resource::<Loader>();
-            let sheet_storage = world.read_resource::<AssetStorage<SpriteSheet>>();
-            loader.load(
-                format!("sprites/{}.ron", name),
-                SpriteSheetFormat(texture_handle),
-                &mut self.progress,
-                &sheet_storage,
-            )
-        };
-
-        sheet_handle
+        let loader = world.read_resource::<Loader>();
+        let sheet_storage = world.read_resource::<AssetStorage<SpriteSheet>>();
+        loader.load(
+            format!("sprites/{}.ron", name),
+            SpriteSheetFormat(texture_handle),
+            &mut self.progress,
+            &sheet_storage,
+        )
     }
 
     fn load_font(&mut self, world: &World, name: &str) -> Handle<FontAsset> {

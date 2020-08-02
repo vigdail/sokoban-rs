@@ -1,6 +1,6 @@
 use amethyst::{
     core::transform::Transform,
-    input::{get_key, is_close_requested, is_key_down, VirtualKeyCode},
+    input::{is_close_requested, is_key_down, VirtualKeyCode},
     prelude::*,
     renderer::Camera,
     ui::{Anchor, UiText, UiTransform},
@@ -75,7 +75,7 @@ fn load_map(world: &mut World) {
 
     // @TODO: Custom format for Map loading
     let s = std::fs::read_to_string(format!("./resources/maps/level{}.txt", level_index))
-        .expect(&format!("Map level{} exist", level_index));
+        .unwrap_or_else(|_| panic!("Map level{} exist", level_index));
     let map = Map::from_str(&s);
     map.build(world);
     world.insert(map);
@@ -122,12 +122,7 @@ fn create_ui(world: &mut World) {
     let steps_text = world
         .create_entity()
         .with(steps_text_transform)
-        .with(UiText::new(
-            font.clone(),
-            "0".to_string(),
-            [1., 1., 1., 1.],
-            50.,
-        ))
+        .with(UiText::new(font, "0".to_string(), [1., 1., 1., 1.], 50.))
         .build();
 
     let mut game_ui = GameUI::default();
