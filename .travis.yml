@@ -3,10 +3,20 @@ rust:
   - stable
 cache: cargo
 
+os:
+  linux
+
+addons:
+  apt:
+    packages:
+      - libasound2-dev
+
 before_script:
   - rustup component add clippy
+  - rustup component add rustfmt
 
 script:
+  - cargo fmt -- --check
   - cargo clippy --all-targets --all-features -- -D warnings
   - cargo build --verbose --all
   - cargo test --verbose --all
