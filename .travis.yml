@@ -10,8 +10,8 @@ addons:
   apt:
     packages:
       - libasound2-dev
-      - libxcb-shape-dev
-      - libxcb-xfixes-dev
+      - libxcb-shape0-dev
+      - libxcb-xfixes0-dev
 
 before_script:
   - rustup component add clippy
