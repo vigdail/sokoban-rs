@@ -1,8 +1,10 @@
 use amethyst::{assets::Handle, ecs::Entity, renderer::SpriteSheet};
 use std::fmt::Display;
 
+pub mod asset_manager;
 pub mod map;
 
+pub use asset_manager::AssetManager;
 pub use map::Map;
 
 pub struct SpriteAtlases {
