@@ -82,15 +82,15 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png8</enum>
+        <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>4096</int>
+            <int>2048</int>
             <key>height</key>
-            <int>4096</int>
+            <int>2048</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -186,11 +186,15 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">1_floor.png</key>
-            <key type="filename">2_wall.png</key>
-            <key type="filename">3_box.png</key>
-            <key type="filename">4_box_spot.png</key>
-            <key type="filename">5_player.png</key>
+            <key type="filename">box.png</key>
+            <key type="filename">floor.png</key>
+            <key type="filename">man.png</key>
+            <key type="filename">man_left1.png</key>
+            <key type="filename">man_left2.png</key>
+            <key type="filename">man_right1.png</key>
+            <key type="filename">spot.png</key>
+            <key type="filename">step right2.png</key>
+            <key type="filename">wall.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -199,20 +203,24 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>8,8,16,16</rect>
+                <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
-                <rect>8,8,16,16</rect>
+                <rect>16,16,32,32</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>1_floor.png</filename>
-            <filename>2_wall.png</filename>
-            <filename>3_box.png</filename>
-            <filename>4_box_spot.png</filename>
-            <filename>5_player.png</filename>
+            <filename>box.png</filename>
+            <filename>floor.png</filename>
+            <filename>man.png</filename>
+            <filename>man_left1.png</filename>
+            <filename>man_left2.png</filename>
+            <filename>man_right1.png</filename>
+            <filename>spot.png</filename>
+            <filename>step right2.png</filename>
+            <filename>wall.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -27,7 +27,7 @@ pub fn create_wall(world: &mut World, position: Vector2<i32>) {
         .with(Immovable)
         .with(SpriteRender {
             sprite_sheet: handle,
-            sprite_number: 1,
+            sprite_number: 8,
         })
         .build();
 }
@@ -50,7 +50,7 @@ pub fn create_box(world: &mut World, position: Vector2<i32>) {
         .with(Movable)
         .with(SpriteRender {
             sprite_sheet: handle,
-            sprite_number: 2,
+            sprite_number: 0,
         })
         .build();
 }
@@ -72,7 +72,7 @@ pub fn create_box_spot(world: &mut World, position: Vector2<i32>) {
         })
         .with(SpriteRender {
             sprite_sheet: handle,
-            sprite_number: 3,
+            sprite_number: 6,
         })
         .build();
 }
@@ -93,7 +93,7 @@ pub fn create_floor(world: &mut World, position: Vector2<i32>) {
         })
         .with(SpriteRender {
             sprite_sheet: handle,
-            sprite_number: 0,
+            sprite_number: 1,
         })
         .build();
 }
@@ -116,7 +116,7 @@ pub fn create_player(world: &mut World, position: Vector2<i32>) {
         .with(Movable)
         .with(SpriteRender {
             sprite_sheet: handle,
-            sprite_number: 4,
+            sprite_number: 2,
         })
         .build();
 }

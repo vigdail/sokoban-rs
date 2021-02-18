@@ -19,7 +19,7 @@ mod resources;
 mod states;
 mod systems;
 
-pub const BLOCK_SIZE: u32 = 32;
+pub const BLOCK_SIZE: u32 = 64;
 
 fn main() -> amethyst::Result<()> {
     amethyst::start_logger(Default::default());
