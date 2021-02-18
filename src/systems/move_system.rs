@@ -83,7 +83,7 @@ impl<'a> System<'a> for MoveSystem {
                 }
             }
 
-            if to_move.is_empty() {
+            if !to_move.is_empty() {
                 gameplay.steps += 1;
             }
             for (key, id) in to_move {
